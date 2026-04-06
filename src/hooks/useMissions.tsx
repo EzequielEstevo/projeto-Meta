@@ -47,7 +47,7 @@ export function useMissions(type?: string) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return (data ?? []) as Mission[];
+      return (data ?? []).map((d: any) => ({ ...d, stat_rewards: d.stat_rewards ?? [] })) as Mission[];
     },
     enabled: !!user,
   });

@@ -45,11 +45,11 @@ export function useProgression() {
         INT: "intelligence", STR: "strength", FCS: "focus",
         KNW: "knowledge", DSC: "discipline", ENR: "energy",
       }[r.stat] as keyof Profile | undefined;
-      if (statKey && typeof profile[statKey] === "number") {
-        statUpdates[statKey as keyof typeof statUpdates] = Math.min(
-          (profile[statKey] as number) + r.value,
+      if (statKey && statKey in profile) {
+        (statUpdates as any)[statKey] = Math.min(
+          (profile as any)[statKey] + r.value,
           999
-        ) as any;
+        );
       }
     }
 
