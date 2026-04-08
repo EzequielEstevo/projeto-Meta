@@ -174,6 +174,7 @@ export default function Dashboard() {
                         duration={mission.duration ?? ""}
                         status={mission.status as "available" | "in_progress" | "completed" | "failed"}
                         statRewards={mission.stat_rewards}
+                        dueDate={mission.due_date}
                         onAccept={() => handleAccept(mission.id)}
                         onComplete={() => handleComplete(mission)}
                       />
