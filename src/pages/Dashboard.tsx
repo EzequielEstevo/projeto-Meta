@@ -117,7 +117,7 @@ export default function Dashboard() {
               <PlayerCard
                 name={profile.player_name}
                 level={profile.level}
-                rank={profile.rank as "E" | "D" | "C" | "B" | "A" | "S"}
+                rank={profile.rank as any}
                 title={profile.title}
                 currentXP={profile.current_xp}
                 requiredXP={profile.required_xp}
@@ -168,7 +168,7 @@ export default function Dashboard() {
                         key={mission.id}
                         title={mission.title}
                         description={mission.description ?? ""}
-                        rank={mission.rank as "E" | "D" | "C" | "B" | "A" | "S"}
+                        rank={mission.rank as any}
                         xpReward={mission.xp_reward}
                         timeSlot={mission.time_slot ?? ""}
                         duration={mission.duration ?? ""}
