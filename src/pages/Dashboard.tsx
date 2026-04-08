@@ -11,7 +11,7 @@ import { CreateMissionDialog } from "@/components/mission/CreateMissionDialog";
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { SystemAlert } from "@/components/ui/SystemAlert";
 import { Button } from "@/components/ui/button";
-import { Swords, Calendar, Trophy, Settings, LogOut, Plus, Loader2 } from "lucide-react";
+import { Swords, LogOut, Plus, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Dashboard() {
