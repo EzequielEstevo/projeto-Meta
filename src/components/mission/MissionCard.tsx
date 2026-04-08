@@ -1,11 +1,11 @@
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
-import { RankBadge } from "@/components/ui/RankBadge";
+import { RankBadge, type Rank } from "@/components/ui/RankBadge";
 import { Button } from "@/components/ui/button";
 import { Clock, Zap, CheckCircle, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type MissionStatus = "available" | "in_progress" | "completed" | "failed";
-type MissionRank = "E" | "D" | "C" | "B" | "A" | "S";
+type MissionRank = Rank;
 
 interface MissionCardProps {
   title: string;

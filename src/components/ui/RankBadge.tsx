@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-type Rank = "E" | "D" | "C" | "B" | "A" | "S";
+export type Rank = "E" | "D" | "C" | "B" | "A" | "S" | "SS" | "SSR";
 
 interface RankBadgeProps {
   rank: Rank;
@@ -16,16 +16,19 @@ const rankConfig: Record<Rank, { color: string; bg: string; border: string; labe
   B: { color: "rank-b", bg: "bg-green-500/20", border: "border-green-500/50", label: "B-Rank" },
   A: { color: "rank-a", bg: "bg-secondary/20", border: "border-secondary/50", label: "A-Rank" },
   S: { color: "rank-s", bg: "bg-primary/20", border: "border-primary/50", label: "S-Rank", glow: true },
+  SS: { color: "text-amber-400", bg: "bg-amber-500/20", border: "border-amber-400/60", label: "SS-Rank", glow: true },
+  SSR: { color: "text-red-400", bg: "bg-red-500/20", border: "border-red-400/60", label: "SSR-Rank", glow: true },
 };
 
 const sizeConfig = {
-  sm: "w-8 h-8 text-sm",
-  md: "w-12 h-12 text-xl",
-  lg: "w-16 h-16 text-3xl",
+  sm: "w-8 h-8 text-xs",
+  md: "w-12 h-12 text-lg",
+  lg: "w-16 h-16 text-2xl",
 };
 
 export function RankBadge({ rank, size = "md", showLabel = false, className }: RankBadgeProps) {
   const config = rankConfig[rank];
+  const isElite = rank === "S" || rank === "SS" || rank === "SSR";
 
   return (
     <div className={cn("flex flex-col items-center gap-1", className)}>
@@ -40,8 +43,7 @@ export function RankBadge({ rank, size = "md", showLabel = false, className }: R
         )}
       >
         {rank}
-        {/* Corner accents for S-Rank */}
-        {rank === "S" && (
+        {isElite && (
           <>
             <div className="absolute -top-1 -left-1 w-2 h-2 bg-primary rounded-full animate-ping" />
             <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-ping" style={{ animationDelay: "0.5s" }} />
