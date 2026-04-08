@@ -1,5 +1,5 @@
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
-import { RankBadge } from "@/components/ui/RankBadge";
+import { RankBadge, type Rank } from "@/components/ui/RankBadge";
 import { XPBar } from "@/components/ui/XPBar";
 import { StatBar } from "@/components/ui/StatBar";
 import { User } from "lucide-react";
@@ -17,7 +17,7 @@ interface PlayerStats {
 interface PlayerCardProps {
   name: string;
   level: number;
-  rank: "E" | "D" | "C" | "B" | "A" | "S";
+  rank: Rank;
   title?: string;
   currentXP: number;
   requiredXP: number;

@@ -25,7 +25,7 @@ export function CreateMissionDialog({ children }: { children: React.ReactNode })
   const createMission = useCreateMission();
   const { toast } = useToast();
 
-  const xpMap: Record<string, number> = { E: 50, D: 100, C: 200, B: 350, A: 500, S: 1000 };
+  const xpMap: Record<string, number> = { E: 50, D: 100, C: 200, B: 350, A: 500, S: 1000, SS: 1800, SSR: 3000 };
   const statMap: Record<string, { stat: string; value: number }[]> = {
     E: [{ stat: "ENR", value: 1 }],
     D: [{ stat: "DSC", value: 2 }, { stat: "ENR", value: 1 }],
@@ -33,6 +33,8 @@ export function CreateMissionDialog({ children }: { children: React.ReactNode })
     B: [{ stat: "FCS", value: 4 }, { stat: "DSC", value: 3 }],
     A: [{ stat: "STR", value: 5 }, { stat: "FCS", value: 4 }],
     S: [{ stat: "INT", value: 6 }, { stat: "STR", value: 5 }, { stat: "FCS", value: 5 }],
+    SS: [{ stat: "INT", value: 8 }, { stat: "STR", value: 7 }, { stat: "FCS", value: 6 }, { stat: "DSC", value: 5 }],
+    SSR: [{ stat: "INT", value: 10 }, { stat: "STR", value: 9 }, { stat: "FCS", value: 8 }, { stat: "KNW", value: 7 }, { stat: "DSC", value: 6 }],
   };
 
   const handleAddSubtask = () => {
@@ -138,6 +140,8 @@ export function CreateMissionDialog({ children }: { children: React.ReactNode })
                   <SelectItem value="B">B - Difícil</SelectItem>
                   <SelectItem value="A">A - Muito Difícil</SelectItem>
                   <SelectItem value="S">S - Extremo</SelectItem>
+                  <SelectItem value="SS">SS - Lendário</SelectItem>
+                  <SelectItem value="SSR">SSR - Divino</SelectItem>
                 </SelectContent>
               </Select>
             </div>

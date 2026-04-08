@@ -2,9 +2,9 @@ import { useUpdateProfile, Profile } from "./useProfile";
 import { Mission } from "./useMissions";
 import { useToast } from "@/hooks/use-toast";
 
-const RANK_ORDER = ["E", "D", "C", "B", "A", "S"];
+const RANK_ORDER = ["E", "D", "C", "B", "A", "S", "SS", "SSR"];
 const RANK_THRESHOLDS: Record<string, number> = {
-  E: 0, D: 5, C: 15, B: 30, A: 50, S: 80,
+  E: 0, D: 5, C: 15, B: 30, A: 50, S: 80, SS: 120, SSR: 170,
 };
 const TITLES: Record<string, string> = {
   E: "Novato",
@@ -13,6 +13,8 @@ const TITLES: Record<string, string> = {
   B: "Caçador Elite",
   A: "Comandante",
   S: "Monarca das Sombras",
+  SS: "Soberano Supremo",
+  SSR: "Deus Absoluto",
 };
 
 function getRequiredXP(level: number): number {
@@ -29,7 +31,6 @@ export function useProgression() {
     let newRequired = profile.required_xp;
     let leveledUp = false;
 
-    // Level up loop
     while (newXP >= newRequired) {
       newXP -= newRequired;
       newLevel++;
@@ -37,7 +38,6 @@ export function useProgression() {
       leveledUp = true;
     }
 
-    // Stat increases from mission
     const statUpdates: Partial<Profile> = {};
     const rewards = (mission.stat_rewards ?? []) as { stat: string; value: number }[];
     for (const r of rewards) {
@@ -53,7 +53,6 @@ export function useProgression() {
       }
     }
 
-    // Rank check
     const newRankIndex = RANK_ORDER.findIndex((r) => RANK_THRESHOLDS[r] > newLevel) - 1;
     const newRank = RANK_ORDER[Math.max(0, newRankIndex >= 0 ? newRankIndex : RANK_ORDER.length - 1)];
     const rankChanged = newRank !== profile.rank;
