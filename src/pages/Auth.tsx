@@ -55,7 +55,7 @@ export default function Auth() {
         }
         toast({
           title: "⚔️ Conta Criada!",
-          description: "description: "Bem-vindo ao Sistema Zentra. Sua jornada começa agora.",. Sua jornada começa agora.",
+          description: "Bem-vindo ao Sistema Zentra. Sua jornada começa agora.",
         });
         navigate("/dashboard");
       } else {
