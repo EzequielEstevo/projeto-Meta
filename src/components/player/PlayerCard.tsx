@@ -86,7 +86,7 @@ export function PlayerCard({
       {/* Footer decoration */}
       <div className="mt-6 pt-4 border-t border-primary/20">
         <p className="text-center text-xs text-muted-foreground font-display uppercase tracking-widest">
-          ━━━ SOLO LEVELING SYSTEM ━━━
+          ━━━ ZENTRA SYSTEM ━━━
         </p>
       </div>
     </HolographicPanel>

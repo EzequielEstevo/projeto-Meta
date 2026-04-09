@@ -40,7 +40,7 @@ export default function Index() {
           </div>
 
           <h1 className="font-display font-bold text-4xl text-glow-blue mb-2">
-            SOLO LEVELING
+            ZENTRA
           </h1>
           <p className="font-display text-secondary uppercase tracking-widest text-sm mb-6">
             Sistema de Rotina Gamificado

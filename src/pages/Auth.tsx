@@ -55,7 +55,7 @@ export default function Auth() {
         }
         toast({
           title: "⚔️ Conta Criada!",
-          description: "Bem-vindo ao Sistema Solo Leveling. Sua jornada começa agora.",
+          description: "Bem-vindo ao Sistema Zentra. Sua jornada começa agora.",
         });
         navigate("/dashboard");
       } else {
