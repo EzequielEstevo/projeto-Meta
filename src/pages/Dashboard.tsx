@@ -84,7 +84,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Swords className="w-8 h-8 text-primary" />
-                <h1 className="font-display font-bold text-2xl text-glow-blue">SOLO LEVELING SYSTEM</h1>
+                <h1 className="font-display font-bold text-2xl text-glow-blue"><h1 className="font-display font-bold text-2xl text-glow-blue">ZENTRA</h1></h1>
               </div>
               <nav className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" onClick={() => navigate("/routines")} className="font-display text-muted-foreground hover:text-primary">
