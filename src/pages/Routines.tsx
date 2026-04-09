@@ -126,7 +126,7 @@ export default function Routines() {
               return (
                 <HolographicPanel
                   key={day}
-                  variant={isComplete ? "purple" : "default"}
+                  variant={isComplete ? "purple" : "blue"}
                   glow={isComplete}
                   className="flex flex-col"
                 >
