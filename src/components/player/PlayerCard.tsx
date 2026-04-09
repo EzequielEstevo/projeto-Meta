@@ -59,9 +59,6 @@ export function PlayerCard({
               「{title}」
             </p>
           )}
-          <p className="text-xs text-muted-foreground font-body mt-1">
-            Hunter ID: #{Math.random().toString(36).substring(2, 8).toUpperCase()}
-          </p>
         </div>
       </div>
 

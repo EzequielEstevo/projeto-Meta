@@ -193,6 +193,45 @@ export type Database = {
           },
         ]
       }
+      weekly_routines: {
+        Row: {
+          completed: boolean
+          created_at: string
+          day_of_week: number
+          id: string
+          time_slot: string | null
+          title: string
+          updated_at: string
+          user_id: string
+          week_start: string
+          xp_reward: number
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          day_of_week: number
+          id?: string
+          time_slot?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+          week_start?: string
+          xp_reward?: number
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          day_of_week?: number
+          id?: string
+          time_slot?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          week_start?: string
+          xp_reward?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
