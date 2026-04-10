@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useProfile } from "@/hooks/useProfile";
+import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { useMissions, useUpdateMission } from "@/hooks/useMissions";
 import { useProgression } from "@/hooks/useProgression";
 import { ParticleBackground } from "@/components/ui/ParticleBackground";
@@ -20,6 +20,7 @@ export default function Dashboard() {
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: missions, isLoading: missionsLoading } = useMissions();
   const updateMission = useUpdateMission();
+  const updateProfile = useUpdateProfile();
   const { completeMission, isUpdating } = useProgression();
   const { toast } = useToast();
 
@@ -126,6 +127,8 @@ export default function Dashboard() {
                 currentXP={profile.current_xp}
                 requiredXP={profile.required_xp}
                 avatarUrl={profile.avatar_url}
+                tagline={profile.tagline}
+                onTaglineSave={(tagline) => updateProfile.mutate({ tagline } as any)}
                 stats={{
                   intelligence: profile.intelligence,
                   strength: profile.strength,

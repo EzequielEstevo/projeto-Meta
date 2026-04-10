@@ -111,6 +111,26 @@
 .btn-glow::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, hsl(var(--neon-blue) / 0.4), transparent); transition: left 0.5s; }
 .btn-glow:hover::before { left: 100%; }
 
+/* Fire Tagline */
+@keyframes fire-flicker {
+  0%, 100% { text-shadow: 0 0 4px hsl(0 100% 50% / 0.8), 0 0 11px hsl(0 100% 50% / 0.6), 0 0 19px hsl(15 100% 50% / 0.4), 0 -5px 25px hsl(25 100% 50% / 0.2); }
+  25% { text-shadow: 0 0 4px hsl(0 100% 50% / 0.9), 0 0 15px hsl(10 100% 55% / 0.7), 0 0 22px hsl(20 100% 50% / 0.5), 0 -3px 30px hsl(30 100% 50% / 0.3); }
+  50% { text-shadow: 0 0 6px hsl(0 100% 55% / 1), 0 0 18px hsl(5 100% 50% / 0.8), 0 0 25px hsl(15 100% 50% / 0.5), 0 -7px 35px hsl(25 100% 50% / 0.3); }
+  75% { text-shadow: 0 0 3px hsl(0 100% 50% / 0.7), 0 0 10px hsl(10 100% 50% / 0.5), 0 0 17px hsl(20 100% 55% / 0.4), 0 -4px 22px hsl(30 100% 50% / 0.2); }
+}
+.fire-text {
+  animation: fire-flicker 1.5s ease-in-out infinite alternate;
+  color: hsl(15 100% 55%);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.animate-marquee {
+  animation: marquee 12s linear infinite;
+}
+
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: hsl(222 47% 4%); }
 ::-webkit-scrollbar-thumb { background: hsl(var(--neon-blue) / 0.3); border-radius: 4px; }

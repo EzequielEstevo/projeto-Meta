@@ -6,6 +6,7 @@ import { StatBar } from "@/components/ui/StatBar";
 import { User, Camera, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
+import { FireTagline } from "./FireTagline";
 
 interface PlayerStats {
   intelligence: number;
@@ -25,6 +26,8 @@ interface PlayerCardProps {
   requiredXP: number;
   stats: PlayerStats;
   avatarUrl?: string | null;
+  tagline?: string | null;
+  onTaglineSave?: (tagline: string) => void;
   className?: string;
 }
 
@@ -37,6 +40,8 @@ export function PlayerCard({
   requiredXP,
   stats,
   avatarUrl,
+  tagline,
+  onTaglineSave,
   className,
 }: PlayerCardProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -91,7 +96,7 @@ export function PlayerCard({
         </div>
 
         {/* Player Info */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <h2 className="font-display font-bold text-xl text-foreground text-glow-blue">
             {name}
           </h2>
@@ -99,6 +104,9 @@ export function PlayerCard({
             <p className="text-sm text-secondary font-display uppercase tracking-wider">
               「{title}」
             </p>
+          )}
+          {onTaglineSave && (
+            <FireTagline tagline={tagline ?? null} onSave={onTaglineSave} />
           )}
         </div>
       </div>
