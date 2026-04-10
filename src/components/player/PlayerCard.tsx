@@ -6,6 +6,7 @@ import { StatBar } from "@/components/ui/StatBar";
 import { User, Camera, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
+import { FireTagline } from "./FireTagline";
 
 interface PlayerStats {
   intelligence: number;
