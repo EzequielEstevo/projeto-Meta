@@ -116,6 +116,7 @@ export type Database = {
           required_xp: number
           streak_days: number
           strength: number
+          tagline: string | null
           title: string
           updated_at: string
         }
@@ -136,6 +137,7 @@ export type Database = {
           required_xp?: number
           streak_days?: number
           strength?: number
+          tagline?: string | null
           title?: string
           updated_at?: string
         }
@@ -156,6 +158,7 @@ export type Database = {
           required_xp?: number
           streak_days?: number
           strength?: number
+          tagline?: string | null
           title?: string
           updated_at?: string
         }
