@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useProfile } from "@/hooks/useProfile";
+import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { useMissions, useUpdateMission } from "@/hooks/useMissions";
 import { useProgression } from "@/hooks/useProgression";
 import { ParticleBackground } from "@/components/ui/ParticleBackground";
