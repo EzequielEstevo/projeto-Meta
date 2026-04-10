@@ -125,6 +125,7 @@ export default function Dashboard() {
                 title={profile.title}
                 currentXP={profile.current_xp}
                 requiredXP={profile.required_xp}
+                avatarUrl={profile.avatar_url}
                 stats={{
                   intelligence: profile.intelligence,
                   strength: profile.strength,

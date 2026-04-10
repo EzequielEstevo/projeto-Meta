@@ -18,6 +18,7 @@ export interface Profile {
   energy: number;
   streak_days: number;
   last_active_date: string | null;
+  avatar_url: string | null;
 }
 
 export function useProfile() {
