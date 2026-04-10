@@ -96,7 +96,7 @@ export function PlayerCard({
         </div>
 
         {/* Player Info */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <h2 className="font-display font-bold text-xl text-foreground text-glow-blue">
             {name}
           </h2>
@@ -104,6 +104,9 @@ export function PlayerCard({
             <p className="text-sm text-secondary font-display uppercase tracking-wider">
               「{title}」
             </p>
+          )}
+          {onTaglineSave && (
+            <FireTagline tagline={tagline ?? null} onSave={onTaglineSave} />
           )}
         </div>
       </div>
