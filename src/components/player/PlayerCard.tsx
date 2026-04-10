@@ -26,6 +26,8 @@ interface PlayerCardProps {
   requiredXP: number;
   stats: PlayerStats;
   avatarUrl?: string | null;
+  tagline?: string | null;
+  onTaglineSave?: (tagline: string) => void;
   className?: string;
 }
 
