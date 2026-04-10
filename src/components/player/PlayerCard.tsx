@@ -40,6 +40,8 @@ export function PlayerCard({
   requiredXP,
   stats,
   avatarUrl,
+  tagline,
+  onTaglineSave,
   className,
 }: PlayerCardProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
