@@ -7,6 +7,7 @@ import { useProgression } from "@/hooks/useProgression";
 import { ParticleBackground } from "@/components/ui/ParticleBackground";
 import { PlayerCard } from "@/components/player/PlayerCard";
 import { MissionCard } from "@/components/mission/MissionCard";
+import { MissionDetailDialog } from "@/components/mission/MissionDetailDialog";
 import { CreateMissionDialog } from "@/components/mission/CreateMissionDialog";
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { SystemAlert } from "@/components/ui/SystemAlert";
@@ -174,24 +175,11 @@ export default function Dashboard() {
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    {activeMissions.map((mission) => (
-                      <MissionCard
-                        key={mission.id}
-                        title={mission.title}
-                        description={mission.description ?? ""}
-                        rank={mission.rank as any}
-                        xpReward={mission.xp_reward}
-                        timeSlot={mission.time_slot ?? ""}
-                        duration={mission.duration ?? ""}
-                        status={mission.status as "available" | "in_progress" | "completed" | "failed"}
-                        statRewards={mission.stat_rewards}
-                        dueDate={mission.due_date}
-                        onAccept={() => handleAccept(mission.id)}
-                        onComplete={() => handleComplete(mission)}
-                      />
-                    ))}
-                  </div>
+                  <MissionList
+                    missions={activeMissions}
+                    onAccept={handleAccept}
+                    onComplete={handleComplete}
+                  />
                 )}
               </HolographicPanel>
 
