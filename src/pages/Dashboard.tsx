@@ -15,6 +15,47 @@ import { Button } from "@/components/ui/button";
 import { Swords, LogOut, Plus, Loader2, CalendarDays, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+function MissionList({ missions, onAccept, onComplete }: {
+  missions: Mission[];
+  onAccept: (id: string) => void;
+  onComplete: (mission: Mission) => void;
+}) {
+  const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
+
+  return (
+    <>
+      <div className="space-y-4">
+        {missions.map((mission) => (
+          <div key={mission.id} onClick={() => setSelectedMission(mission)} className="cursor-pointer">
+            <MissionCard
+              title={mission.title}
+              description={mission.description ?? ""}
+              rank={mission.rank as any}
+              xpReward={mission.xp_reward}
+              timeSlot={mission.time_slot ?? ""}
+              duration={mission.duration ?? ""}
+              status={mission.status as any}
+              statRewards={mission.stat_rewards}
+              dueDate={mission.due_date}
+              onAccept={() => onAccept(mission.id)}
+              onComplete={() => onComplete(mission)}
+            />
+          </div>
+        ))}
+      </div>
+      {selectedMission && (
+        <MissionDetailDialog
+          mission={selectedMission}
+          open={!!selectedMission}
+          onOpenChange={(open) => !open && setSelectedMission(null)}
+          onAccept={() => onAccept(selectedMission.id)}
+          onComplete={() => onComplete(selectedMission)}
+        />
+      )}
+    </>
+  );
+}
+
 export default function Dashboard() {
   const { user, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
