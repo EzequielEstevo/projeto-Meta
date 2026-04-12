@@ -11,7 +11,7 @@ import { CreateMissionDialog } from "@/components/mission/CreateMissionDialog";
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { SystemAlert } from "@/components/ui/SystemAlert";
 import { Button } from "@/components/ui/button";
-import { Swords, LogOut, Plus, Loader2, CalendarDays } from "lucide-react";
+import { Swords, LogOut, Plus, Loader2, CalendarDays, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Dashboard() {
@@ -88,6 +88,10 @@ export default function Dashboard() {
                 <h1 className="font-display font-bold text-2xl text-glow-blue"><h1 className="font-display font-bold text-2xl text-glow-blue">ZENTRA</h1></h1>
               </div>
               <nav className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" onClick={() => navigate("/goals")} className="font-display text-muted-foreground hover:text-orange-400">
+                  <Target className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">Metas</span>
+                </Button>
                 <Button variant="ghost" size="sm" onClick={() => navigate("/routines")} className="font-display text-muted-foreground hover:text-primary">
                   <CalendarDays className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Rotinas</span>

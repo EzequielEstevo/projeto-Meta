@@ -131,6 +131,74 @@
   animation: marquee 12s linear infinite;
 }
 
+/* Fire Goal Card */
+.fire-goal-card {
+  background: linear-gradient(135deg, hsl(var(--panel-bg) / 0.95) 0%, hsl(0 50% 8% / 0.4) 100%);
+  border: 1px solid hsl(15 100% 50% / 0.3);
+  box-shadow: 0 0 15px hsl(0 100% 50% / 0.08), inset 0 0 20px hsl(15 100% 50% / 0.03);
+  position: relative;
+}
+.fire-goal-card:hover {
+  border-color: hsl(15 100% 50% / 0.6);
+  box-shadow: 0 0 30px hsl(0 100% 50% / 0.15), 0 0 60px hsl(25 100% 50% / 0.08), inset 0 0 30px hsl(15 100% 50% / 0.05);
+  transform: translateY(-2px);
+}
+
+/* Fire embers */
+@keyframes ember-rise {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-60px) scale(0); opacity: 0; }
+}
+@keyframes ember-sway {
+  0%, 100% { transform: translateX(0) translateY(0) scale(1); opacity: 0.6; }
+  25% { transform: translateX(8px) translateY(-20px) scale(0.8); opacity: 1; }
+  50% { transform: translateX(-5px) translateY(-40px) scale(0.5); opacity: 0.7; }
+  75% { transform: translateX(10px) translateY(-55px) scale(0.3); opacity: 0.3; }
+  100% { transform: translateX(0) translateY(-70px) scale(0); opacity: 0; }
+}
+.fire-ember {
+  position: absolute;
+  bottom: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.fire-ember-1 {
+  left: 15%;
+  background: hsl(25 100% 55%);
+  animation: ember-sway 2.5s ease-out infinite;
+}
+.fire-ember-2 {
+  left: 50%;
+  background: hsl(0 100% 50%);
+  animation: ember-rise 2s ease-out infinite 0.5s;
+}
+.fire-ember-3 {
+  left: 80%;
+  background: hsl(40 100% 55%);
+  animation: ember-sway 3s ease-out infinite 1s;
+}
+.fire-glow {
+  position: absolute;
+  bottom: -10px;
+  left: 10%;
+  right: 10%;
+  height: 30px;
+  background: radial-gradient(ellipse at center, hsl(15 100% 50% / 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  animation: fire-flicker 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes fire-icon-pulse {
+  0%, 100% { filter: drop-shadow(0 0 3px hsl(25 100% 50% / 0.8)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 8px hsl(0 100% 50% / 1)) drop-shadow(0 0 15px hsl(25 100% 50% / 0.5)); transform: scale(1.15); }
+}
+.fire-icon-animate {
+  animation: fire-icon-pulse 1.2s ease-in-out infinite;
+}
+
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: hsl(222 47% 4%); }
 ::-webkit-scrollbar-thumb { background: hsl(var(--neon-blue) / 0.3); border-radius: 4px; }
