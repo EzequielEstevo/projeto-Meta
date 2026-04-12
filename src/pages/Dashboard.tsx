@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
-import { useMissions, useUpdateMission } from "@/hooks/useMissions";
+import { useMissions, useUpdateMission, type Mission } from "@/hooks/useMissions";
 import { useProgression } from "@/hooks/useProgression";
 import { ParticleBackground } from "@/components/ui/ParticleBackground";
 import { PlayerCard } from "@/components/player/PlayerCard";
