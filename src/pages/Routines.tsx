@@ -285,9 +285,17 @@ export default function Routines() {
                             >
                               {routine.completed && <Check className="w-4 h-4" />}
                             </button>
-                            <span className={cn("flex-1 text-sm font-body", routine.completed && "line-through text-muted-foreground")}>
-                              {routine.title}
-                            </span>
+                            <div className="flex flex-col flex-1 min-w-0">
+                              <span className={cn("text-sm font-body", routine.completed && "line-through text-muted-foreground")}>
+                                {routine.title}
+                              </span>
+                              {routine.time_slot && (
+                                <span className="text-xs text-muted-foreground font-body flex items-center gap-1">
+                                  <Clock className="w-3 h-3" />
+                                  {routine.time_slot}
+                                </span>
+                              )}
+                            </div>
                             <span className="text-xs text-primary font-display flex items-center gap-1">
                               <Zap className="w-3 h-3" />
                               {routine.xp_reward}
