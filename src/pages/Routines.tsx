@@ -10,7 +10,7 @@ import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Swords, ArrowLeft, Plus, Loader2, Check, Trash2, Zap, RotateCcw, Pencil, X, Save, BookOpen } from "lucide-react";
+import { Swords, ArrowLeft, Plus, Loader2, Check, Trash2, Zap, RotateCcw, Pencil, X, Save, BookOpen, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -34,9 +34,13 @@ export default function Routines() {
 
   const [newTitles, setNewTitles] = useState<Record<number, string>>({});
   const [xpValues, setXpValues] = useState<Record<number, number>>({});
+  const [timeStart, setTimeStart] = useState<Record<number, string>>({});
+  const [timeEnd, setTimeEnd] = useState<Record<number, string>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editXp, setEditXp] = useState(50);
+  const [editTimeStart, setEditTimeStart] = useState("");
+  const [editTimeEnd, setEditTimeEnd] = useState("");
   const [selectedDisc, setSelectedDisc] = useState<Record<number, string>>({});
   const [selectedTopic, setSelectedTopic] = useState<Record<number, string>>({});
 
@@ -59,13 +63,19 @@ export default function Routines() {
   const handleAdd = async (dayIndex: number) => {
     const title = newTitles[dayIndex]?.trim();
     if (!title) return;
+    const start = timeStart[dayIndex]?.trim();
+    const end = timeEnd[dayIndex]?.trim();
+    const time_slot = start && end ? `${start} às ${end}` : start ? `${start}` : undefined;
     await createRoutine.mutateAsync({
       title,
       day_of_week: dayIndex,
       xp_reward: xpValues[dayIndex] || 50,
+      time_slot,
     });
     setNewTitles((prev) => ({ ...prev, [dayIndex]: "" }));
     setXpValues((prev) => ({ ...prev, [dayIndex]: 50 }));
+    setTimeStart((prev) => ({ ...prev, [dayIndex]: "" }));
+    setTimeEnd((prev) => ({ ...prev, [dayIndex]: "" }));
   };
 
   const handleToggle = async (routine: typeof routines extends (infer T)[] | undefined ? T : never) => {
@@ -108,17 +118,21 @@ export default function Routines() {
     toast({ title: "🔄 Rotinas reiniciadas!", description: `${DAYS[dayIndex]} resetado com sucesso.` });
   };
 
-  const startEdit = (routine: { id: string; title: string; xp_reward: number }) => {
+  const startEdit = (routine: { id: string; title: string; xp_reward: number; time_slot?: string | null }) => {
     setEditingId(routine.id);
     setEditTitle(routine.title);
     setEditXp(routine.xp_reward);
+    const parts = routine.time_slot?.split(" às ") ?? [];
+    setEditTimeStart(parts[0] ?? "");
+    setEditTimeEnd(parts[1] ?? "");
   };
 
   const saveEdit = async () => {
     if (!editingId || !editTitle.trim()) return;
+    const time_slot = editTimeStart && editTimeEnd ? `${editTimeStart} às ${editTimeEnd}` : editTimeStart || null;
     const { error } = await supabase
       .from("weekly_routines")
-      .update({ title: editTitle.trim(), xp_reward: editXp })
+      .update({ title: editTitle.trim(), xp_reward: editXp, time_slot })
       .eq("id", editingId);
     if (!error) {
       queryClient.invalidateQueries({ queryKey: ["weekly_routines"] });
@@ -216,6 +230,24 @@ export default function Routines() {
                               autoFocus
                             />
                             <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-muted-foreground" />
+                                <Input
+                                  type="time"
+                                  value={editTimeStart}
+                                  onChange={(e) => setEditTimeStart(e.target.value)}
+                                  className="h-7 text-xs w-24 bg-background/50 border-primary/20 font-body"
+                                />
+                                <span className="text-xs text-muted-foreground">às</span>
+                                <Input
+                                  type="time"
+                                  value={editTimeEnd}
+                                  onChange={(e) => setEditTimeEnd(e.target.value)}
+                                  className="h-7 text-xs w-24 bg-background/50 border-primary/20 font-body"
+                                />
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
                               <div className="flex items-center gap-1 flex-1">
                                 <Zap className="w-3 h-3 text-primary" />
                                 <Input
@@ -253,9 +285,17 @@ export default function Routines() {
                             >
                               {routine.completed && <Check className="w-4 h-4" />}
                             </button>
-                            <span className={cn("flex-1 text-sm font-body", routine.completed && "line-through text-muted-foreground")}>
-                              {routine.title}
-                            </span>
+                            <div className="flex flex-col flex-1 min-w-0">
+                              <span className={cn("text-sm font-body", routine.completed && "line-through text-muted-foreground")}>
+                                {routine.title}
+                              </span>
+                              {routine.time_slot && (
+                                <span className="text-xs text-muted-foreground font-body flex items-center gap-1">
+                                  <Clock className="w-3 h-3" />
+                                  {routine.time_slot}
+                                </span>
+                              )}
+                            </div>
                             <span className="text-xs text-primary font-display flex items-center gap-1">
                               <Zap className="w-3 h-3" />
                               {routine.xp_reward}
@@ -325,17 +365,33 @@ export default function Routines() {
                   )}
 
                   {/* Add new routine */}
-                  <div className="flex gap-2 mt-3 pt-3 border-t border-primary/10">
+                  <div className="mt-3 pt-3 border-t border-primary/10 space-y-2">
                     <Input
                       placeholder="Nova rotina..."
                       value={newTitles[dayIndex] ?? ""}
                       onChange={(e) => setNewTitles((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
                       onKeyDown={(e) => e.key === "Enter" && handleAdd(dayIndex)}
-                      className="flex-1 h-8 text-sm bg-background/50 border-primary/20 font-body"
+                      className="h-8 text-sm bg-background/50 border-primary/20 font-body"
                     />
-                    <Button size="sm" variant="ghost" onClick={() => handleAdd(dayIndex)} disabled={!newTitles[dayIndex]?.trim()} className="h-8 w-8 p-0 text-primary hover:text-primary">
-                      <Plus className="w-4 h-4" />
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-3 h-3 text-muted-foreground shrink-0" />
+                      <Input
+                        type="time"
+                        value={timeStart[dayIndex] ?? ""}
+                        onChange={(e) => setTimeStart((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
+                        className="h-7 text-xs flex-1 bg-background/50 border-primary/20 font-body"
+                      />
+                      <span className="text-xs text-muted-foreground">às</span>
+                      <Input
+                        type="time"
+                        value={timeEnd[dayIndex] ?? ""}
+                        onChange={(e) => setTimeEnd((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
+                        className="h-7 text-xs flex-1 bg-background/50 border-primary/20 font-body"
+                      />
+                      <Button size="sm" variant="ghost" onClick={() => handleAdd(dayIndex)} disabled={!newTitles[dayIndex]?.trim()} className="h-8 w-8 p-0 text-primary hover:text-primary shrink-0">
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 </HolographicPanel>
               );
