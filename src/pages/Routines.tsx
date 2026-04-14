@@ -230,6 +230,24 @@ export default function Routines() {
                               autoFocus
                             />
                             <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-muted-foreground" />
+                                <Input
+                                  type="time"
+                                  value={editTimeStart}
+                                  onChange={(e) => setEditTimeStart(e.target.value)}
+                                  className="h-7 text-xs w-24 bg-background/50 border-primary/20 font-body"
+                                />
+                                <span className="text-xs text-muted-foreground">às</span>
+                                <Input
+                                  type="time"
+                                  value={editTimeEnd}
+                                  onChange={(e) => setEditTimeEnd(e.target.value)}
+                                  className="h-7 text-xs w-24 bg-background/50 border-primary/20 font-body"
+                                />
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
                               <div className="flex items-center gap-1 flex-1">
                                 <Zap className="w-3 h-3 text-primary" />
                                 <Input
