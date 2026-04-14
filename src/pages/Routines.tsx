@@ -35,6 +35,8 @@ export default function Routines() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editXp, setEditXp] = useState(50);
+  const [selectedDisc, setSelectedDisc] = useState<Record<number, string>>({});
+  const [selectedTopic, setSelectedTopic] = useState<Record<number, string>>({});
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
