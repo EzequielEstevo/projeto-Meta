@@ -4,11 +4,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
 import { useWeeklyRoutines, useCreateRoutine, useToggleRoutine, useDeleteRoutine } from "@/hooks/useWeeklyRoutines";
 import { useProgression } from "@/hooks/useProgression";
+import { useDisciplines, useTopics } from "@/hooks/useStudies";
 import { ParticleBackground } from "@/components/ui/ParticleBackground";
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Swords, ArrowLeft, Plus, Loader2, Check, Trash2, Zap, RotateCcw, Pencil, X, Save } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Swords, ArrowLeft, Plus, Loader2, Check, Trash2, Zap, RotateCcw, Pencil, X, Save, BookOpen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,6 +23,8 @@ export default function Routines() {
   const navigate = useNavigate();
   const { data: profile } = useProfile();
   const { data: routines, isLoading } = useWeeklyRoutines();
+  const { data: disciplines } = useDisciplines();
+  const { data: allTopics } = useTopics();
   const createRoutine = useCreateRoutine();
   const toggleRoutine = useToggleRoutine();
   const deleteRoutine = useDeleteRoutine();
@@ -33,6 +37,8 @@ export default function Routines() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editXp, setEditXp] = useState(50);
+  const [selectedDisc, setSelectedDisc] = useState<Record<number, string>>({});
+  const [selectedTopic, setSelectedTopic] = useState<Record<number, string>>({});
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
@@ -265,6 +271,58 @@ export default function Routines() {
                       </div>
                     ))}
                   </div>
+
+                  {/* Quick add from studies */}
+                  {disciplines && disciplines.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-primary/10">
+                      <div className="flex items-center gap-1 mb-2 text-xs text-muted-foreground font-body">
+                        <BookOpen className="w-3 h-3" /> Adicionar dos Estudos
+                      </div>
+                      <div className="flex gap-2 flex-wrap">
+                        <Select
+                          value={selectedDisc[dayIndex] ?? ""}
+                          onValueChange={(v) => {
+                            setSelectedDisc((prev) => ({ ...prev, [dayIndex]: v }));
+                            setSelectedTopic((prev) => ({ ...prev, [dayIndex]: "" }));
+                          }}
+                        >
+                          <SelectTrigger className="h-8 text-xs flex-1 min-w-[120px] bg-background/50 border-primary/20 font-body">
+                            <SelectValue placeholder="Disciplina" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {disciplines.map((d) => (
+                              <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {selectedDisc[dayIndex] && (
+                          <Select
+                            value={selectedTopic[dayIndex] ?? ""}
+                            onValueChange={(v) => {
+                              setSelectedTopic((prev) => ({ ...prev, [dayIndex]: v }));
+                              const topic = allTopics?.find((t) => t.id === v);
+                              if (topic) {
+                                const disc = disciplines.find((d) => d.id === topic.discipline_id);
+                                const label = disc ? `${disc.name}: ${topic.title}` : topic.title;
+                                setNewTitles((prev) => ({ ...prev, [dayIndex]: label }));
+                              }
+                            }}
+                          >
+                            <SelectTrigger className="h-8 text-xs flex-1 min-w-[120px] bg-background/50 border-primary/20 font-body">
+                              <SelectValue placeholder="Assunto" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {allTopics
+                                ?.filter((t) => t.discipline_id === selectedDisc[dayIndex])
+                                .map((t) => (
+                                  <SelectItem key={t.id} value={t.id}>{t.title}</SelectItem>
+                                ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Add new routine */}
                   <div className="flex gap-2 mt-3 pt-3 border-t border-primary/10">
