@@ -118,10 +118,13 @@ export default function Routines() {
     toast({ title: "🔄 Rotinas reiniciadas!", description: `${DAYS[dayIndex]} resetado com sucesso.` });
   };
 
-  const startEdit = (routine: { id: string; title: string; xp_reward: number }) => {
+  const startEdit = (routine: { id: string; title: string; xp_reward: number; time_slot?: string | null }) => {
     setEditingId(routine.id);
     setEditTitle(routine.title);
     setEditXp(routine.xp_reward);
+    const parts = routine.time_slot?.split(" às ") ?? [];
+    setEditTimeStart(parts[0] ?? "");
+    setEditTimeEnd(parts[1] ?? "");
   };
 
   const saveEdit = async () => {
