@@ -9,6 +9,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Routines from "./pages/Routines";
 import Goals from "./pages/Goals";
+import Studies from "./pages/Studies";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
