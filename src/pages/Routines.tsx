@@ -365,17 +365,33 @@ export default function Routines() {
                   )}
 
                   {/* Add new routine */}
-                  <div className="flex gap-2 mt-3 pt-3 border-t border-primary/10">
+                  <div className="mt-3 pt-3 border-t border-primary/10 space-y-2">
                     <Input
                       placeholder="Nova rotina..."
                       value={newTitles[dayIndex] ?? ""}
                       onChange={(e) => setNewTitles((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
                       onKeyDown={(e) => e.key === "Enter" && handleAdd(dayIndex)}
-                      className="flex-1 h-8 text-sm bg-background/50 border-primary/20 font-body"
+                      className="h-8 text-sm bg-background/50 border-primary/20 font-body"
                     />
-                    <Button size="sm" variant="ghost" onClick={() => handleAdd(dayIndex)} disabled={!newTitles[dayIndex]?.trim()} className="h-8 w-8 p-0 text-primary hover:text-primary">
-                      <Plus className="w-4 h-4" />
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-3 h-3 text-muted-foreground shrink-0" />
+                      <Input
+                        type="time"
+                        value={timeStart[dayIndex] ?? ""}
+                        onChange={(e) => setTimeStart((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
+                        className="h-7 text-xs flex-1 bg-background/50 border-primary/20 font-body"
+                      />
+                      <span className="text-xs text-muted-foreground">às</span>
+                      <Input
+                        type="time"
+                        value={timeEnd[dayIndex] ?? ""}
+                        onChange={(e) => setTimeEnd((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
+                        className="h-7 text-xs flex-1 bg-background/50 border-primary/20 font-body"
+                      />
+                      <Button size="sm" variant="ghost" onClick={() => handleAdd(dayIndex)} disabled={!newTitles[dayIndex]?.trim()} className="h-8 w-8 p-0 text-primary hover:text-primary shrink-0">
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 </HolographicPanel>
               );
