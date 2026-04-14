@@ -63,13 +63,19 @@ export default function Routines() {
   const handleAdd = async (dayIndex: number) => {
     const title = newTitles[dayIndex]?.trim();
     if (!title) return;
+    const start = timeStart[dayIndex]?.trim();
+    const end = timeEnd[dayIndex]?.trim();
+    const time_slot = start && end ? `${start} às ${end}` : start ? `${start}` : undefined;
     await createRoutine.mutateAsync({
       title,
       day_of_week: dayIndex,
       xp_reward: xpValues[dayIndex] || 50,
+      time_slot,
     });
     setNewTitles((prev) => ({ ...prev, [dayIndex]: "" }));
     setXpValues((prev) => ({ ...prev, [dayIndex]: 50 }));
+    setTimeStart((prev) => ({ ...prev, [dayIndex]: "" }));
+    setTimeEnd((prev) => ({ ...prev, [dayIndex]: "" }));
   };
 
   const handleToggle = async (routine: typeof routines extends (infer T)[] | undefined ? T : never) => {
