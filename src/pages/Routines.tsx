@@ -272,6 +272,58 @@ export default function Routines() {
                     ))}
                   </div>
 
+                  {/* Quick add from studies */}
+                  {disciplines && disciplines.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-primary/10">
+                      <div className="flex items-center gap-1 mb-2 text-xs text-muted-foreground font-body">
+                        <BookOpen className="w-3 h-3" /> Adicionar dos Estudos
+                      </div>
+                      <div className="flex gap-2 flex-wrap">
+                        <Select
+                          value={selectedDisc[dayIndex] ?? ""}
+                          onValueChange={(v) => {
+                            setSelectedDisc((prev) => ({ ...prev, [dayIndex]: v }));
+                            setSelectedTopic((prev) => ({ ...prev, [dayIndex]: "" }));
+                          }}
+                        >
+                          <SelectTrigger className="h-8 text-xs flex-1 min-w-[120px] bg-background/50 border-primary/20 font-body">
+                            <SelectValue placeholder="Disciplina" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {disciplines.map((d) => (
+                              <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {selectedDisc[dayIndex] && (
+                          <Select
+                            value={selectedTopic[dayIndex] ?? ""}
+                            onValueChange={(v) => {
+                              setSelectedTopic((prev) => ({ ...prev, [dayIndex]: v }));
+                              const topic = allTopics?.find((t) => t.id === v);
+                              if (topic) {
+                                const disc = disciplines.find((d) => d.id === topic.discipline_id);
+                                const label = disc ? `${disc.name}: ${topic.title}` : topic.title;
+                                setNewTitles((prev) => ({ ...prev, [dayIndex]: label }));
+                              }
+                            }}
+                          >
+                            <SelectTrigger className="h-8 text-xs flex-1 min-w-[120px] bg-background/50 border-primary/20 font-body">
+                              <SelectValue placeholder="Assunto" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {allTopics
+                                ?.filter((t) => t.discipline_id === selectedDisc[dayIndex])
+                                .map((t) => (
+                                  <SelectItem key={t.id} value={t.id}>{t.title}</SelectItem>
+                                ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Add new routine */}
                   <div className="flex gap-2 mt-3 pt-3 border-t border-primary/10">
                     <Input
