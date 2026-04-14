@@ -34,9 +34,13 @@ export default function Routines() {
 
   const [newTitles, setNewTitles] = useState<Record<number, string>>({});
   const [xpValues, setXpValues] = useState<Record<number, number>>({});
+  const [timeStart, setTimeStart] = useState<Record<number, string>>({});
+  const [timeEnd, setTimeEnd] = useState<Record<number, string>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editXp, setEditXp] = useState(50);
+  const [editTimeStart, setEditTimeStart] = useState("");
+  const [editTimeEnd, setEditTimeEnd] = useState("");
   const [selectedDisc, setSelectedDisc] = useState<Record<number, string>>({});
   const [selectedTopic, setSelectedTopic] = useState<Record<number, string>>({});
 
