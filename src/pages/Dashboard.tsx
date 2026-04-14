@@ -12,7 +12,7 @@ import { CreateMissionDialog } from "@/components/mission/CreateMissionDialog";
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { SystemAlert } from "@/components/ui/SystemAlert";
 import { Button } from "@/components/ui/button";
-import { Swords, LogOut, Plus, Loader2, CalendarDays, Target } from "lucide-react";
+import { Swords, LogOut, Plus, Loader2, CalendarDays, Target, BookOpen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 function MissionList({ missions, onAccept, onComplete }: {
@@ -137,6 +137,10 @@ export default function Dashboard() {
                 <Button variant="ghost" size="sm" onClick={() => navigate("/routines")} className="font-display text-muted-foreground hover:text-primary">
                   <CalendarDays className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Rotinas</span>
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => navigate("/studies")} className="font-display text-muted-foreground hover:text-cyan-400">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">Estudos</span>
                 </Button>
                 <Button variant="ghost" size="sm" onClick={handleSignOut} className="font-display text-muted-foreground hover:text-destructive">
                   <LogOut className="w-4 h-4 mr-2" />
