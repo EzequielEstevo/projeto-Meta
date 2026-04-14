@@ -23,6 +23,8 @@ export default function Routines() {
   const navigate = useNavigate();
   const { data: profile } = useProfile();
   const { data: routines, isLoading } = useWeeklyRoutines();
+  const { data: disciplines } = useDisciplines();
+  const { data: allTopics } = useTopics();
   const createRoutine = useCreateRoutine();
   const toggleRoutine = useToggleRoutine();
   const deleteRoutine = useDeleteRoutine();
