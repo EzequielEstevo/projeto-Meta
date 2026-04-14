@@ -41,6 +41,33 @@ export type Database = {
         }
         Relationships: []
       }
+      disciplines: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       goals: {
         Row: {
           completed: boolean
@@ -232,14 +259,54 @@ export type Database = {
           },
         ]
       }
+      topics: {
+        Row: {
+          completed: boolean
+          created_at: string
+          discipline_id: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          discipline_id: string
+          id?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          discipline_id?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topics_discipline_id_fkey"
+            columns: ["discipline_id"]
+            isOneToOne: false
+            referencedRelation: "disciplines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       weekly_routines: {
         Row: {
           completed: boolean
           created_at: string
           day_of_week: number
+          discipline_id: string | null
           id: string
           time_slot: string | null
           title: string
+          topic_id: string | null
           updated_at: string
           user_id: string
           week_start: string
@@ -249,9 +316,11 @@ export type Database = {
           completed?: boolean
           created_at?: string
           day_of_week: number
+          discipline_id?: string | null
           id?: string
           time_slot?: string | null
           title: string
+          topic_id?: string | null
           updated_at?: string
           user_id: string
           week_start?: string
@@ -261,15 +330,32 @@ export type Database = {
           completed?: boolean
           created_at?: string
           day_of_week?: number
+          discipline_id?: string | null
           id?: string
           time_slot?: string | null
           title?: string
+          topic_id?: string | null
           updated_at?: string
           user_id?: string
           week_start?: string
           xp_reward?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "weekly_routines_discipline_id_fkey"
+            columns: ["discipline_id"]
+            isOneToOne: false
+            referencedRelation: "disciplines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "weekly_routines_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
