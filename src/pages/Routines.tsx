@@ -129,9 +129,10 @@ export default function Routines() {
 
   const saveEdit = async () => {
     if (!editingId || !editTitle.trim()) return;
+    const time_slot = editTimeStart && editTimeEnd ? `${editTimeStart} às ${editTimeEnd}` : editTimeStart || null;
     const { error } = await supabase
       .from("weekly_routines")
-      .update({ title: editTitle.trim(), xp_reward: editXp })
+      .update({ title: editTitle.trim(), xp_reward: editXp, time_slot })
       .eq("id", editingId);
     if (!error) {
       queryClient.invalidateQueries({ queryKey: ["weekly_routines"] });
