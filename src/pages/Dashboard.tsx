@@ -12,7 +12,7 @@ import { CreateMissionDialog } from "@/components/mission/CreateMissionDialog";
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { SystemAlert } from "@/components/ui/SystemAlert";
 import { Button } from "@/components/ui/button";
-import { Swords, LogOut, Plus, Loader2, CalendarDays, Target, BookOpen } from "lucide-react";
+import { Swords, LogOut, Plus, Loader2, CalendarDays, Target, BookOpen, Dumbbell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 function MissionList({ missions, onAccept, onComplete }: {
@@ -127,7 +127,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Swords className="w-8 h-8 text-primary" />
-                <h1 className="font-display font-bold text-2xl text-glow-blue"><h1 className="font-display font-bold text-2xl text-glow-blue">ZENTRA</h1></h1>
+                <h1 className="font-display font-bold text-2xl text-glow-blue">ZENTRA</h1>
               </div>
               <nav className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" onClick={() => navigate("/goals")} className="font-display text-muted-foreground hover:text-orange-400">
@@ -141,6 +141,10 @@ export default function Dashboard() {
                 <Button variant="ghost" size="sm" onClick={() => navigate("/studies")} className="font-display text-muted-foreground hover:text-cyan-400">
                   <BookOpen className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Estudos</span>
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => navigate("/training")} className="font-display text-muted-foreground hover:text-green-400">
+                  <Dumbbell className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">Treino</span>
                 </Button>
                 <Button variant="ghost" size="sm" onClick={handleSignOut} className="font-display text-muted-foreground hover:text-destructive">
                   <LogOut className="w-4 h-4 mr-2" />

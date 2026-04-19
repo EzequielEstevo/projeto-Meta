@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Routines from "./pages/Routines";
 import Goals from "./pages/Goals";
 import Studies from "./pages/Studies";
+import Training from "./pages/Training";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/routines" element={<Routines />} />
             <Route path="/goals" element={<Goals />} />
             <Route path="/studies" element={<Studies />} />
+            <Route path="/training" element={<Training />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
