@@ -6,6 +6,7 @@ export interface Workout {
   id: string;
   user_id: string;
   name: string;
+  day_of_week: number;
   created_at: string;
   updated_at: string;
 }
@@ -68,7 +69,7 @@ export function useCreateWorkout() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   return useMutation({
-    mutationFn: async (workout: { name: string }) => {
+    mutationFn: async (workout: { name: string; day_of_week: number }) => {
       if (!user) throw new Error("Not authenticated");
       const { data, error } = await supabase
         .from("workouts")
@@ -85,10 +86,13 @@ export function useCreateWorkout() {
 export function useUpdateWorkout() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, name }: { id: string; name: string }) => {
+    mutationFn: async ({ id, name, day_of_week }: { id: string; name?: string; day_of_week?: number }) => {
+      const updates: Record<string, any> = {};
+      if (name !== undefined) updates.name = name;
+      if (day_of_week !== undefined) updates.day_of_week = day_of_week;
       const { error } = await supabase
         .from("workouts")
-        .update({ name })
+        .update(updates)
         .eq("id", id);
       if (error) throw error;
     },
