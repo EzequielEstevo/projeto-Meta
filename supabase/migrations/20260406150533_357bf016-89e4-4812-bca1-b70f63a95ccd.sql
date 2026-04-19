@@ -2,7 +2,7 @@
 -- Profiles table
 CREATE TABLE public.profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  player_name TEXT NOT NULL DEFAULT 'Hunter',
+  player_name TEXT NOT NULL DEFAULT 'Jogador',
   level INTEGER NOT NULL DEFAULT 1,
   current_xp INTEGER NOT NULL DEFAULT 0,
   required_xp INTEGER NOT NULL DEFAULT 1000,
@@ -40,7 +40,7 @@ SET search_path = public
 AS $$
 BEGIN
   INSERT INTO public.profiles (id, player_name)
-  VALUES (NEW.id, COALESCE(NEW.raw_user_meta_data->>'player_name', 'Hunter'));
+  VALUES (NEW.id, COALESCE(NEW.raw_user_meta_data->>'player_name', 'Jogador'));
   RETURN NEW;
 END;
 $$;

@@ -8,10 +8,11 @@ import { FireGoalCard } from "@/components/goals/FireGoalCard";
 import { CreateGoalDialog } from "@/components/goals/CreateGoalDialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Swords, LogOut, ArrowLeft, Plus, Loader2, Target, Flame } from "lucide-react";
+import { Plus, Loader2, Target, Flame } from "lucide-react";
+import { Navbar } from "@/components/layout/Navbar";
 
 export default function Goals() {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { data: goals, isLoading } = useGoals();
   const updateGoal = useUpdateGoal();
@@ -86,24 +87,7 @@ export default function Goals() {
     <div className="min-h-screen relative overflow-hidden">
       <ParticleBackground />
       <div className="relative z-10">
-        <header className="border-b border-primary/20 bg-background/80 backdrop-blur-xl">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Swords className="w-8 h-8 text-primary" />
-              <h1 className="font-display font-bold text-2xl text-glow-blue">ZENTRA</h1>
-            </div>
-            <nav className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")} className="font-display text-muted-foreground hover:text-primary">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Dashboard</span>
-              </Button>
-              <Button variant="ghost" size="sm" onClick={async () => { await signOut(); navigate("/auth"); }} className="font-display text-muted-foreground hover:text-destructive">
-                <LogOut className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Sair</span>
-              </Button>
-            </nav>
-          </div>
-        </header>
+        <Navbar />
 
         <main className="container mx-auto px-4 py-6 max-w-2xl">
           <div className="flex items-center gap-3 mb-6">

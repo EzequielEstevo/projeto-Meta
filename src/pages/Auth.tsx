@@ -44,7 +44,7 @@ export default function Auth() {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/dashboard`,
-            data: { player_name: playerName || "Hunter" },
+            data: { player_name: playerName || "Jogador" },
           },
         });
         if (signUpError) {
@@ -55,7 +55,7 @@ export default function Auth() {
         }
         toast({
           title: "⚔️ Conta Criada!",
-          description: "Bem-vindo ao Sistema Zentra. Sua jornada começa agora.",
+          description: "Bem-vindo ao Sistema Sistema. Sua jornada começa agora.",
         });
         navigate("/dashboard");
       } else {
@@ -67,7 +67,7 @@ export default function Auth() {
           return;
         }
         toast({
-          title: "🗡️ Bem-vindo de volta, Hunter!",
+          title: "🗡️ Bem-vindo de volta, Jogador!",
           description: "O Sistema aguarda seus comandos.",
         });
         navigate("/dashboard");
@@ -99,12 +99,12 @@ export default function Auth() {
               </div>
             </div>
             <h1 className="font-display font-bold text-2xl text-glow-blue mb-2">
-              {mode === "login" ? "LOGIN DO SISTEMA" : "REGISTRO DE HUNTER"}
+              {mode === "login" ? "LOGIN DO SISTEMA" : "REGISTRO DE JOGADOR"}
             </h1>
             <p className="text-sm text-muted-foreground font-body">
               {mode === "login"
                 ? "Insira suas credenciais para acessar o Sistema"
-                : "Crie seu perfil de Hunter para começar a evoluir"}
+                : "Crie seu perfil de Jogador para começar a evoluir"}
             </p>
           </div>
 
@@ -116,7 +116,7 @@ export default function Auth() {
             {mode === "signup" && (
               <div className="space-y-2">
                 <Label htmlFor="playerName" className="font-display text-sm uppercase tracking-wider text-muted-foreground">
-                  Nome do Hunter
+                  Nome do Jogador
                 </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -124,7 +124,7 @@ export default function Auth() {
                     id="playerName"
                     value={playerName}
                     onChange={(e) => setPlayerName(e.target.value)}
-                    placeholder="Seu nome de Hunter"
+                    placeholder="Seu nome de Jogador"
                     className="pl-10 bg-muted/30 border-primary/30 focus:border-primary font-body"
                     required
                     maxLength={50}
@@ -144,7 +144,7 @@ export default function Auth() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="hunter@email.com"
+                  placeholder="jogador@email.com"
                   className="pl-10 bg-muted/30 border-primary/30 focus:border-primary font-body"
                   required
                 />
@@ -181,14 +181,14 @@ export default function Auth() {
 
           <div className="mt-6 pt-6 border-t border-primary/20 text-center">
             <p className="text-sm text-muted-foreground font-body">
-              {mode === "login" ? "Novo no Sistema?" : "Já é um Hunter?"}
+              {mode === "login" ? "Novo no Sistema?" : "Já é um Jogador?"}
             </p>
             <button
               type="button"
               onClick={() => { setMode(mode === "login" ? "signup" : "login"); setError(null); }}
               className="mt-2 text-primary hover:text-primary/80 font-display text-sm uppercase tracking-wider transition-colors"
             >
-              {mode === "login" ? "Registrar como Hunter" : "Fazer Login"}
+              {mode === "login" ? "Registrar como Jogador" : "Fazer Login"}
             </button>
           </div>
         </HolographicPanel>

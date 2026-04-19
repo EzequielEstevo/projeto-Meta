@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
+import { Navbar } from "@/components/layout/Navbar";
 
 const DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
 
@@ -155,20 +156,7 @@ export default function Routines() {
     <div className="min-h-screen relative overflow-hidden">
       <ParticleBackground />
       <div className="relative z-10">
-        <header className="border-b border-primary/20 bg-background/80 backdrop-blur-xl">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Swords className="w-8 h-8 text-primary" />
-                <h1 className="font-display font-bold text-2xl text-glow-blue">ROTINA SEMANAL</h1>
-              </div>
-              <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")} className="font-display text-muted-foreground hover:text-primary">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Voltar
-              </Button>
-            </div>
-          </div>
-        </header>
+        <Navbar />
 
         <main className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">

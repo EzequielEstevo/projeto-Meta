@@ -40,7 +40,7 @@ export default function Index() {
           </div>
 
           <h1 className="font-display font-bold text-4xl text-glow-blue mb-2">
-            ZENTRA
+            SISTEMA
           </h1>
           <p className="font-display text-secondary uppercase tracking-widest text-sm mb-6">
             Sistema de Rotina Gamificado
@@ -49,7 +49,7 @@ export default function Index() {
           <SystemAlert
             type="info"
             title="Sistema Detectado"
-            message="Você foi selecionado como Hunter. Crie sua conta para começar sua jornada de evolução."
+            message="Você foi selecionado como Jogador. Crie sua conta para começar sua jornada de evolução."
             className="mb-8 text-left"
           />
 

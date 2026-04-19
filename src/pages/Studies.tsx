@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { Navbar } from "@/components/layout/Navbar";
 
 const COLORS = [
   "#3B82F6", "#8B5CF6", "#EC4899", "#F59E0B",
@@ -119,20 +120,7 @@ export default function Studies() {
     <div className="min-h-screen relative overflow-hidden">
       <ParticleBackground />
       <div className="relative z-10">
-        <header className="border-b border-primary/20 bg-background/80 backdrop-blur-xl">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <BookOpen className="w-8 h-8 text-primary" />
-                <h1 className="font-display font-bold text-2xl text-glow-blue">ESTUDOS</h1>
-              </div>
-              <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")} className="font-display text-muted-foreground hover:text-primary">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Voltar
-              </Button>
-            </div>
-          </div>
-        </header>
+        <Navbar />
 
         <main className="container mx-auto px-4 py-6 max-w-3xl">
           {/* Add Discipline */}

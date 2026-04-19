@@ -12,8 +12,9 @@ import { CreateMissionDialog } from "@/components/mission/CreateMissionDialog";
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { SystemAlert } from "@/components/ui/SystemAlert";
 import { Button } from "@/components/ui/button";
-import { Swords, LogOut, Plus, Loader2, CalendarDays, Target, BookOpen, Dumbbell } from "lucide-react";
+import { Swords, Plus, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Navbar } from "@/components/layout/Navbar";
 
 function MissionList({ missions, onAccept, onComplete }: {
   missions: Mission[];
@@ -57,13 +58,13 @@ function MissionList({ missions, onAccept, onComplete }: {
 }
 
 export default function Dashboard() {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: missions, isLoading: missionsLoading } = useMissions();
   const updateMission = useUpdateMission();
   const updateProfile = useUpdateProfile();
-  const { completeMission, isUpdating } = useProgression();
+  const { completeMission } = useProgression();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -79,7 +80,7 @@ export default function Dashboard() {
         <div className="relative z-10 flex flex-col items-center gap-4">
           <Loader2 className="w-12 h-12 text-primary animate-spin" />
           <p className="font-display text-primary text-glow-blue uppercase tracking-widest">
-            Carregando Sistema...
+            Carregando SISTEMA...
           </p>
         </div>
       </div>
@@ -98,15 +99,10 @@ export default function Dashboard() {
     await updateMission.mutateAsync({ id, status: "in_progress" });
   };
 
-  const handleComplete = async (mission: typeof missions extends (infer T)[] | undefined ? T : never) => {
+  const handleComplete = async (mission: Mission) => {
     if (!mission) return;
     await updateMission.mutateAsync({ id: mission.id, status: "completed", completed_at: new Date().toISOString() });
     await completeMission(mission, profile);
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/auth");
   };
 
   const greeting = () => {
@@ -121,41 +117,8 @@ export default function Dashboard() {
       <ParticleBackground />
 
       <div className="relative z-10">
-        {/* Header */}
-        <header className="border-b border-primary/20 bg-background/80 backdrop-blur-xl">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Swords className="w-8 h-8 text-primary" />
-                <h1 className="font-display font-bold text-2xl text-glow-blue">ZENTRA</h1>
-              </div>
-              <nav className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" onClick={() => navigate("/goals")} className="font-display text-muted-foreground hover:text-orange-400">
-                  <Target className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Metas</span>
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => navigate("/routines")} className="font-display text-muted-foreground hover:text-primary">
-                  <CalendarDays className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Rotinas</span>
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => navigate("/studies")} className="font-display text-muted-foreground hover:text-cyan-400">
-                  <BookOpen className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Estudos</span>
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => navigate("/training")} className="font-display text-muted-foreground hover:text-green-400">
-                  <Dumbbell className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Treino</span>
-                </Button>
-                <Button variant="ghost" size="sm" onClick={handleSignOut} className="font-display text-muted-foreground hover:text-destructive">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Sair</span>
-                </Button>
-              </nav>
-            </div>
-          </div>
-        </header>
+        <Navbar />
 
-        {/* Greeting */}
         <div className="container mx-auto px-4 py-4">
           <SystemAlert
             type="info"
@@ -168,10 +131,8 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Main Grid */}
         <main className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Player Card */}
             <div className="lg:col-span-4">
               <PlayerCard
                 name={profile.player_name}
@@ -194,7 +155,6 @@ export default function Dashboard() {
               />
             </div>
 
-            {/* Missions */}
             <div className="lg:col-span-8 space-y-4">
               <HolographicPanel>
                 <div className="flex items-center justify-between mb-4">
@@ -232,7 +192,6 @@ export default function Dashboard() {
                 )}
               </HolographicPanel>
 
-              {/* Completed Today */}
               {completedToday > 0 && (
                 <HolographicPanel variant="purple">
                   <h2 className="font-display font-bold text-xl text-foreground mb-2">
@@ -242,7 +201,7 @@ export default function Dashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-display font-bold text-lg text-secondary">Missões Completadas</h3>
-                        <p className="text-sm text-muted-foreground font-body mt-1">Continue assim, Hunter!</p>
+                        <p className="text-sm text-muted-foreground font-body mt-1">Continue assim, Jogador!</p>
                       </div>
                       <span className="font-display font-bold text-3xl text-secondary">{completedToday}</span>
                     </div>
