@@ -75,7 +75,12 @@ export default function Goals() {
     );
   };
 
-  const typeLabels: Record<string, string> = { daily: "Diárias", weekly: "Semanais", monthly: "Mensais" };
+  const typeLabels: Record<string, string> = { 
+    weekly: "Semanais", 
+    monthly: "Mensais", 
+    six_months: "6 Meses", 
+    one_year: "Anuais" 
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -106,21 +111,22 @@ export default function Goals() {
             <h2 className="font-display font-bold text-xl fire-text">Suas Metas</h2>
           </div>
 
-          <Tabs defaultValue="daily">
+          <Tabs defaultValue="weekly">
             <div className="flex items-center justify-between mb-4">
               <TabsList className="bg-muted/50 border border-primary/20">
-                <TabsTrigger value="daily" className="font-display text-xs data-[state=active]:text-orange-400">🔥 Diárias</TabsTrigger>
-                <TabsTrigger value="weekly" className="font-display text-xs data-[state=active]:text-orange-400">🔥 Semanais</TabsTrigger>
-                <TabsTrigger value="monthly" className="font-display text-xs data-[state=active]:text-orange-400">🔥 Mensais</TabsTrigger>
+                <TabsTrigger value="weekly" className="font-display text-[10px] sm:text-xs data-[state=active]:text-orange-400">🔥 Semanais</TabsTrigger>
+                <TabsTrigger value="monthly" className="font-display text-[10px] sm:text-xs data-[state=active]:text-orange-400">🔥 Mensais</TabsTrigger>
+                <TabsTrigger value="six_months" className="font-display text-[10px] sm:text-xs data-[state=active]:text-orange-400">🔥 6 Meses</TabsTrigger>
+                <TabsTrigger value="one_year" className="font-display text-[10px] sm:text-xs data-[state=active]:text-orange-400">🔥 1 Ano</TabsTrigger>
               </TabsList>
               <CreateGoalDialog>
-                <Button className="btn-glow bg-gradient-to-r from-orange-500 to-red-500 text-foreground font-display uppercase tracking-wider text-xs">
+                <Button className="btn-glow bg-gradient-to-r from-orange-500 to-red-500 text-foreground font-display uppercase tracking-wider text-[10px] sm:text-xs">
                   <Plus className="w-4 h-4 mr-1" /> Meta
                 </Button>
               </CreateGoalDialog>
             </div>
 
-            {["daily", "weekly", "monthly"].map((type) => (
+            {["weekly", "monthly", "six_months", "one_year"].map((type) => (
               <TabsContent key={type} value={type}>
                 <HolographicPanel>
                   <h3 className="font-display font-bold text-lg mb-4">

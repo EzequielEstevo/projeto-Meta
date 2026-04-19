@@ -11,7 +11,7 @@ interface CreateGoalDialogProps {
   defaultType?: string;
 }
 
-export function CreateGoalDialog({ children, defaultType = "daily" }: CreateGoalDialogProps) {
+export function CreateGoalDialog({ children, defaultType = "weekly" }: CreateGoalDialogProps) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [goalType, setGoalType] = useState(defaultType);
@@ -54,9 +54,10 @@ export function CreateGoalDialog({ children, defaultType = "daily" }: CreateGoal
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="daily">Diária</SelectItem>
               <SelectItem value="weekly">Semanal</SelectItem>
               <SelectItem value="monthly">Mensal</SelectItem>
+              <SelectItem value="six_months">6 Meses</SelectItem>
+              <SelectItem value="one_year">1 Ano</SelectItem>
             </SelectContent>
           </Select>
           <div>
