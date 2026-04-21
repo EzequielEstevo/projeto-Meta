@@ -105,7 +105,7 @@ export function CreateMissionDialog({ children }: { children: React.ReactNode })
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Ex: Treino matinal de 30 min"
+              placeholder="Ex: Estudar matemática por 30 min"
               className="bg-muted/30 border-primary/30 font-body"
               required
               maxLength={100}

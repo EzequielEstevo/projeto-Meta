@@ -9,7 +9,6 @@ import {
   CalendarDays, 
   Target, 
   BookOpen, 
-  Dumbbell,
   Menu,
   X,
   LayoutDashboard
@@ -39,7 +38,6 @@ export function Navbar() {
     { label: "Metas", icon: Target, path: "/goals", color: "hover:text-orange-400" },
     { label: "Rotinas", icon: CalendarDays, path: "/routines", color: "hover:text-primary" },
     { label: "Estudos", icon: BookOpen, path: "/studies", color: "hover:text-cyan-400" },
-    { label: "Treino", icon: Dumbbell, path: "/training", color: "hover:text-green-400" },
   ];
 
   return (
