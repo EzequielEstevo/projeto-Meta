@@ -9,8 +9,7 @@ import { ParticleBackground } from "@/components/ui/ParticleBackground";
 import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Swords, ArrowLeft, Plus, Loader2, Check, Trash2, Zap, RotateCcw, Pencil, X, Save, BookOpen, Clock } from "lucide-react";
+import { Swords, ArrowLeft, Plus, Loader2, Check, Trash2, Zap, RotateCcw, Pencil, X, Save, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -34,16 +33,8 @@ export default function Routines() {
   const queryClient = useQueryClient();
 
   const [newTitles, setNewTitles] = useState<Record<number, string>>({});
-  const [xpValues, setXpValues] = useState<Record<number, number>>({});
-  const [timeStart, setTimeStart] = useState<Record<number, string>>({});
-  const [timeEnd, setTimeEnd] = useState<Record<number, string>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
-  const [editXp, setEditXp] = useState(50);
-  const [editTimeStart, setEditTimeStart] = useState("");
-  const [editTimeEnd, setEditTimeEnd] = useState("");
-  const [selectedDisc, setSelectedDisc] = useState<Record<number, string>>({});
-  const [selectedTopic, setSelectedTopic] = useState<Record<number, string>>({});
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
@@ -64,19 +55,13 @@ export default function Routines() {
   const handleAdd = async (dayIndex: number) => {
     const title = newTitles[dayIndex]?.trim();
     if (!title) return;
-    const start = timeStart[dayIndex]?.trim();
-    const end = timeEnd[dayIndex]?.trim();
-    const time_slot = start && end ? `${start} às ${end}` : start ? `${start}` : undefined;
     await createRoutine.mutateAsync({
       title,
       day_of_week: dayIndex,
-      xp_reward: xpValues[dayIndex] || 50,
-      time_slot,
+      xp_reward: 50,
+      time_slot: null,
     });
     setNewTitles((prev) => ({ ...prev, [dayIndex]: "" }));
-    setXpValues((prev) => ({ ...prev, [dayIndex]: 50 }));
-    setTimeStart((prev) => ({ ...prev, [dayIndex]: "" }));
-    setTimeEnd((prev) => ({ ...prev, [dayIndex]: "" }));
   };
 
   const handleToggle = async (routine: typeof routines extends (infer T)[] | undefined ? T : never) => {
@@ -119,21 +104,16 @@ export default function Routines() {
     toast({ title: "🔄 Rotinas reiniciadas!", description: `${DAYS[dayIndex]} resetado com sucesso.` });
   };
 
-  const startEdit = (routine: { id: string; title: string; xp_reward: number; time_slot?: string | null }) => {
+  const startEdit = (routine: { id: string; title: string }) => {
     setEditingId(routine.id);
     setEditTitle(routine.title);
-    setEditXp(routine.xp_reward);
-    const parts = routine.time_slot?.split(" às ") ?? [];
-    setEditTimeStart(parts[0] ?? "");
-    setEditTimeEnd(parts[1] ?? "");
   };
 
   const saveEdit = async () => {
     if (!editingId || !editTitle.trim()) return;
-    const time_slot = editTimeStart && editTimeEnd ? `${editTimeStart} às ${editTimeEnd}` : editTimeStart || null;
     const { error } = await supabase
       .from("weekly_routines")
-      .update({ title: editTitle.trim(), xp_reward: editXp, time_slot })
+      .update({ title: editTitle.trim() })
       .eq("id", editingId);
     if (!error) {
       queryClient.invalidateQueries({ queryKey: ["weekly_routines"] });
@@ -210,48 +190,20 @@ export default function Routines() {
                     {routinesByDay[dayIndex].map((routine) => (
                       <div key={routine.id}>
                         {editingId === routine.id ? (
-                          <div className="flex flex-col gap-2 p-2 rounded-lg border border-primary/30 bg-muted/10">
+                          <div className="flex items-center gap-2 mb-2 p-2 rounded border border-primary/30 bg-muted/10">
                             <Input
                               value={editTitle}
                               onChange={(e) => setEditTitle(e.target.value)}
-                              className="h-7 text-sm bg-background/50 border-primary/20 font-body"
+                              className="flex-1 h-7 text-xs bg-background/50 border-primary/20 font-body"
                               autoFocus
+                              onKeyDown={(e) => e.key === "Enter" && saveEdit()}
                             />
-                            <div className="flex items-center gap-2">
-                              <div className="flex items-center gap-1">
-                                <Clock className="w-3 h-3 text-muted-foreground" />
-                                <Input
-                                  type="time"
-                                  value={editTimeStart}
-                                  onChange={(e) => setEditTimeStart(e.target.value)}
-                                  className="h-7 text-xs w-24 bg-background/50 border-primary/20 font-body"
-                                />
-                                <span className="text-xs text-muted-foreground">às</span>
-                                <Input
-                                  type="time"
-                                  value={editTimeEnd}
-                                  onChange={(e) => setEditTimeEnd(e.target.value)}
-                                  className="h-7 text-xs w-24 bg-background/50 border-primary/20 font-body"
-                                />
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div className="flex items-center gap-1 flex-1">
-                                <Zap className="w-3 h-3 text-primary" />
-                                <Input
-                                  type="number"
-                                  value={editXp}
-                                  onChange={(e) => setEditXp(Number(e.target.value))}
-                                  className="h-7 text-sm w-16 bg-background/50 border-primary/20 font-body"
-                                />
-                              </div>
-                              <button onClick={saveEdit} className="text-secondary hover:text-secondary/80 transition-colors">
-                                <Save className="w-4 h-4" />
-                              </button>
-                              <button onClick={() => setEditingId(null)} className="text-muted-foreground hover:text-destructive transition-colors">
-                                <X className="w-4 h-4" />
-                              </button>
-                            </div>
+                            <button onClick={saveEdit} className="text-secondary hover:text-secondary/80 transition-colors">
+                              <Save className="w-4 h-4" />
+                            </button>
+                            <button onClick={() => setEditingId(null)} className="text-muted-foreground hover:text-destructive transition-colors">
+                              <X className="w-4 h-4" />
+                            </button>
                           </div>
                         ) : (
                           <div
@@ -300,83 +252,17 @@ export default function Routines() {
                     ))}
                   </div>
 
-                  {/* Quick add from studies */}
-                  {disciplines && disciplines.length > 0 && (
-                    <div className="mt-3 pt-3 border-t border-primary/10">
-                      <div className="flex items-center gap-1 mb-2 text-xs text-muted-foreground font-body">
-                        <BookOpen className="w-3 h-3" /> Adicionar dos Estudos
-                      </div>
-                      <div className="flex gap-2 flex-wrap">
-                        <Select
-                          value={selectedDisc[dayIndex] ?? ""}
-                          onValueChange={(v) => {
-                            setSelectedDisc((prev) => ({ ...prev, [dayIndex]: v }));
-                            setSelectedTopic((prev) => ({ ...prev, [dayIndex]: "" }));
-                          }}
-                        >
-                          <SelectTrigger className="h-8 text-xs flex-1 min-w-[120px] bg-background/50 border-primary/20 font-body">
-                            <SelectValue placeholder="Disciplina" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {disciplines.map((d) => (
-                              <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        {selectedDisc[dayIndex] && (
-                          <Select
-                            value={selectedTopic[dayIndex] ?? ""}
-                            onValueChange={(v) => {
-                              setSelectedTopic((prev) => ({ ...prev, [dayIndex]: v }));
-                              const topic = allTopics?.find((t) => t.id === v);
-                              if (topic) {
-                                const disc = disciplines.find((d) => d.id === topic.discipline_id);
-                                const label = disc ? `${disc.name}: ${topic.title}` : topic.title;
-                                setNewTitles((prev) => ({ ...prev, [dayIndex]: label }));
-                              }
-                            }}
-                          >
-                            <SelectTrigger className="h-8 text-xs flex-1 min-w-[120px] bg-background/50 border-primary/20 font-body">
-                              <SelectValue placeholder="Assunto" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {allTopics
-                                ?.filter((t) => t.discipline_id === selectedDisc[dayIndex])
-                                .map((t) => (
-                                  <SelectItem key={t.id} value={t.id}>{t.title}</SelectItem>
-                                ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
                   {/* Add new routine */}
-                  <div className="mt-3 pt-3 border-t border-primary/10 space-y-2">
-                    <Input
-                      placeholder="Nova rotina..."
-                      value={newTitles[dayIndex] ?? ""}
-                      onChange={(e) => setNewTitles((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
-                      onKeyDown={(e) => e.key === "Enter" && handleAdd(dayIndex)}
-                      className="h-8 text-sm bg-background/50 border-primary/20 font-body"
-                    />
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-3 h-3 text-muted-foreground shrink-0" />
+                  <div className="mt-3 pt-3 border-t border-primary/10">
+                    <div className="flex gap-1">
                       <Input
-                        type="time"
-                        value={timeStart[dayIndex] ?? ""}
-                        onChange={(e) => setTimeStart((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
-                        className="h-7 text-xs flex-1 bg-background/50 border-primary/20 font-body"
+                        placeholder="Nova rotina..."
+                        value={newTitles[dayIndex] ?? ""}
+                        onChange={(e) => setNewTitles((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
+                        onKeyDown={(e) => e.key === "Enter" && handleAdd(dayIndex)}
+                        className="h-8 text-xs bg-background/50 border-primary/20 font-body"
                       />
-                      <span className="text-xs text-muted-foreground">às</span>
-                      <Input
-                        type="time"
-                        value={timeEnd[dayIndex] ?? ""}
-                        onChange={(e) => setTimeEnd((prev) => ({ ...prev, [dayIndex]: e.target.value }))}
-                        className="h-7 text-xs flex-1 bg-background/50 border-primary/20 font-body"
-                      />
-                      <Button size="sm" variant="ghost" onClick={() => handleAdd(dayIndex)} disabled={!newTitles[dayIndex]?.trim()} className="h-8 w-8 p-0 text-primary hover:text-primary shrink-0">
+                      <Button size="sm" onClick={() => handleAdd(dayIndex)} disabled={!newTitles[dayIndex]?.trim()} className="h-8 w-8 p-0">
                         <Plus className="w-4 h-4" />
                       </Button>
                     </div>

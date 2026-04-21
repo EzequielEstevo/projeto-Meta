@@ -7,7 +7,6 @@ import { HolographicPanel } from "@/components/ui/HolographicPanel";
 import { FireGoalCard } from "@/components/goals/FireGoalCard";
 import { CreateGoalDialog } from "@/components/goals/CreateGoalDialog";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Loader2, Target, Flame } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 
@@ -34,10 +33,8 @@ export default function Goals() {
   const handleComplete = (id: string) => updateGoal.mutate({ id, completed: true });
   const handleDelete = (id: string) => deleteGoal.mutate(id);
 
-  const filterGoals = (type: string) => goals?.filter((g) => g.goal_type === type) ?? [];
-
-  const GoalList = ({ type }: { type: string }) => {
-    const filtered = filterGoals(type);
+  const GoalList = () => {
+    const filtered = goals ?? [];
     const active = filtered.filter((g) => !g.completed);
     const completed = filtered.filter((g) => g.completed);
 
@@ -76,13 +73,6 @@ export default function Goals() {
     );
   };
 
-  const typeLabels: Record<string, string> = { 
-    weekly: "Semanais", 
-    monthly: "Mensais", 
-    six_months: "6 Meses", 
-    one_year: "Anuais" 
-  };
-
   return (
     <div className="min-h-screen relative overflow-hidden">
       <ParticleBackground />
@@ -95,32 +85,20 @@ export default function Goals() {
             <h2 className="font-display font-bold text-xl fire-text">Suas Metas</h2>
           </div>
 
-          <Tabs defaultValue="weekly">
-            <div className="flex items-center justify-between mb-4">
-              <TabsList className="bg-muted/50 border border-primary/20">
-                <TabsTrigger value="weekly" className="font-display text-[10px] sm:text-xs data-[state=active]:text-orange-400">🔥 Semanais</TabsTrigger>
-                <TabsTrigger value="monthly" className="font-display text-[10px] sm:text-xs data-[state=active]:text-orange-400">🔥 Mensais</TabsTrigger>
-                <TabsTrigger value="six_months" className="font-display text-[10px] sm:text-xs data-[state=active]:text-orange-400">🔥 6 Meses</TabsTrigger>
-                <TabsTrigger value="one_year" className="font-display text-[10px] sm:text-xs data-[state=active]:text-orange-400">🔥 1 Ano</TabsTrigger>
-              </TabsList>
-              <CreateGoalDialog>
-                <Button className="btn-glow bg-gradient-to-r from-orange-500 to-red-500 text-foreground font-display uppercase tracking-wider text-[10px] sm:text-xs">
-                  <Plus className="w-4 h-4 mr-1" /> Meta
-                </Button>
-              </CreateGoalDialog>
-            </div>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display font-bold text-lg">
+              <span className="text-orange-400">[</span> Todas as Metas <span className="text-orange-400">]</span>
+            </h3>
+            <CreateGoalDialog>
+              <Button className="btn-glow bg-gradient-to-r from-orange-500 to-red-500 text-foreground font-display uppercase tracking-wider text-[10px] sm:text-xs">
+                <Plus className="w-4 h-4 mr-1" /> Meta
+              </Button>
+            </CreateGoalDialog>
+          </div>
 
-            {["weekly", "monthly", "six_months", "one_year"].map((type) => (
-              <TabsContent key={type} value={type}>
-                <HolographicPanel>
-                  <h3 className="font-display font-bold text-lg mb-4">
-                    <span className="text-orange-400">[</span> Metas {typeLabels[type]} <span className="text-orange-400">]</span>
-                  </h3>
-                  <GoalList type={type} />
-                </HolographicPanel>
-              </TabsContent>
-            ))}
-          </Tabs>
+          <HolographicPanel>
+            <GoalList />
+          </HolographicPanel>
         </main>
       </div>
     </div>

@@ -75,45 +75,69 @@ export default function Training() {
   const handleAddWorkout = async (dayIndex: number) => {
     const name = newWorkoutNames[dayIndex]?.trim();
     if (!name) return;
-    await createWorkout.mutateAsync({ name, day_of_week: dayIndex });
-    setNewWorkoutNames((prev) => ({ ...prev, [dayIndex]: "" }));
-    toast({ title: "💪 Treino criado!", description: name });
+    try {
+      await createWorkout.mutateAsync({ name, day_of_week: dayIndex });
+      setNewWorkoutNames((prev) => ({ ...prev, [dayIndex]: "" }));
+      toast({ title: "💪 Treino criado!", description: name });
+    } catch (error) {
+      toast({ title: "Erro ao criar", description: (error as Error).message, variant: "destructive" });
+    }
   };
 
   const handleSaveWorkout = async () => {
     if (!editingWorkout) return;
-    await updateWorkout.mutateAsync(editingWorkout);
-    setEditingWorkout(null);
-    toast({ title: "✏️ Treino atualizado!" });
+    try {
+      await updateWorkout.mutateAsync(editingWorkout);
+      setEditingWorkout(null);
+      toast({ title: "✏️ Treino atualizado!" });
+    } catch (error) {
+      toast({ title: "Erro", description: (error as Error).message, variant: "destructive" });
+    }
   };
 
   const handleDeleteWorkout = async (id: string) => {
-    await deleteWorkout.mutateAsync(id);
-    toast({ title: "🗑️ Treino removido!" });
+    try {
+      await deleteWorkout.mutateAsync(id);
+      toast({ title: "🗑️ Treino removido!" });
+    } catch (error) {
+      toast({ title: "Erro", description: (error as Error).message, variant: "destructive" });
+    }
   };
 
   const handleAddExercise = async (workoutId: string) => {
     const data = newExercise[workoutId];
     if (!data?.name.trim()) return;
-    await createExercise.mutateAsync({
-      name: data.name,
-      workout_id: workoutId,
-      sets: data.sets,
-      reps: data.reps,
-      weight: data.weight,
-    });
-    setNewExercise((prev) => ({ ...prev, [workoutId]: { name: "", sets: "", reps: "", weight: "" } }));
-    toast({ title: "🏋️ Exercício adicionado!" });
+    try {
+      await createExercise.mutateAsync({
+        name: data.name,
+        workout_id: workoutId,
+        sets: data.sets,
+        reps: data.reps,
+        weight: data.weight,
+      });
+      setNewExercise((prev) => ({ ...prev, [workoutId]: { name: "", sets: "", reps: "", weight: "" } }));
+      toast({ title: "🏋️ Exercício adicionado!" });
+    } catch (error) {
+      toast({ title: "Erro", description: (error as Error).message, variant: "destructive" });
+    }
   };
 
   const handleSaveExercise = async () => {
     if (!editingExercise) return;
-    await updateExercise.mutateAsync(editingExercise);
-    setEditingExercise(null);
+    try {
+      await updateExercise.mutateAsync(editingExercise);
+      setEditingExercise(null);
+    } catch (error) {
+      toast({ title: "Erro", description: (error as Error).message, variant: "destructive" });
+    }
   };
 
   const handleToggleExercise = async (id: string, completed: boolean) => {
-    await updateExercise.mutateAsync({ id, completed: !completed });
+    try {
+      await updateExercise.mutateAsync({ id, completed: !completed });
+    } catch (error) {
+      toast({ title: "Erro", description: (error as Error).message, variant: "destructive" });
+    }
   };
 
   const workoutsByDay = DAYS.map((_, i) =>

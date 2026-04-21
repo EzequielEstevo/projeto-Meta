@@ -357,6 +357,83 @@ export type Database = {
           },
         ]
       }
+      workouts: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          day_of_week: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          day_of_week: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          day_of_week?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      exercises: {
+        Row: {
+          id: string
+          workout_id: string
+          user_id: string
+          name: string
+          sets: string | null
+          reps: string | null
+          weight: string | null
+          notes: string | null
+          completed: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          workout_id: string
+          user_id: string
+          name: string
+          sets?: string | null
+          reps?: string | null
+          weight?: string | null
+          notes?: string | null
+          completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          workout_id?: string
+          user_id?: string
+          name?: string
+          sets?: string | null
+          reps?: string | null
+          weight?: string | null
+          notes?: string | null
+          completed?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercises_workout_id_fkey"
+            columns: ["workout_id"]
+            isOneToOne: false
+            referencedRelation: "workouts"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never

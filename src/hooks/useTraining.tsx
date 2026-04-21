@@ -87,7 +87,7 @@ export function useUpdateWorkout() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, name, day_of_week }: { id: string; name?: string; day_of_week?: number }) => {
-      const updates: Record<string, any> = {};
+      const updates: Record<string, unknown> = {};
       if (name !== undefined) updates.name = name;
       if (day_of_week !== undefined) updates.day_of_week = day_of_week;
       const { error } = await supabase

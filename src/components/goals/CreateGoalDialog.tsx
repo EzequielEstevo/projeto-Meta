@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useCreateGoal } from "@/hooks/useGoals";
 import { useToast } from "@/hooks/use-toast";
 
@@ -49,17 +48,7 @@ export function CreateGoalDialog({ children, defaultType = "weekly" }: CreateGoa
             onChange={(e) => setTitle(e.target.value)}
             className="font-body bg-muted/50 border-primary/20"
           />
-          <Select value={goalType} onValueChange={setGoalType}>
-            <SelectTrigger className="font-body bg-muted/50 border-primary/20">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="weekly">Semanal</SelectItem>
-              <SelectItem value="monthly">Mensal</SelectItem>
-              <SelectItem value="six_months">6 Meses</SelectItem>
-              <SelectItem value="one_year">1 Ano</SelectItem>
-            </SelectContent>
-          </Select>
+
           <div>
             <label className="text-xs text-muted-foreground font-display uppercase tracking-wider mb-1 block">Prazo</label>
             <Input
