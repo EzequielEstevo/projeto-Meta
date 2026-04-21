@@ -12,6 +12,8 @@ export interface WeeklyRoutine {
   completed: boolean;
   week_start: string;
   created_at: string;
+  discipline_id: string | null;
+  topic_id: string | null;
 }
 
 function getCurrentWeekStart(): string {
@@ -53,8 +55,10 @@ export function useCreateRoutine() {
     mutationFn: async (routine: {
       title: string;
       day_of_week: number;
-      time_slot?: string;
+      time_slot?: string | null;
       xp_reward?: number;
+      discipline_id?: string | null;
+      topic_id?: string | null;
     }) => {
       if (!user) throw new Error("Not authenticated");
       const weekStart = getCurrentWeekStart();
