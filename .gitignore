@@ -1,4 +1,21 @@
+# ========================================
+# 🔐 SEGURANÇA - Dados Sensíveis
+# ========================================
+
+# Variáveis de ambiente (credenciais, tokens, URLs de conexão)
+.env
+.env.*
+!.env.example
+
+# Backups e dumps do banco de dados
+*.sql.bak
+*.dump
+*.backup
+db_dumps/
+
+# ========================================
 # Logs
+# ========================================
 logs
 *.log
 npm-debug.log*
@@ -7,12 +24,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# ========================================
+# Build & Dependências
+# ========================================
 node_modules
 dist
 dist-ssr
 *.local
 
+# ========================================
 # Editor directories and files
+# ========================================
 .vscode/*
 !.vscode/extensions.json
 .idea
