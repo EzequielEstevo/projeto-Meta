@@ -1,0 +1,7 @@
+name = "projeto-meta"
+compatibility_date = "2024-04-01"
+pages_build_output_dir = "dist"
+
+[vars]
+# As variáveis de ambiente devem ser configuradas no painel do Cloudflare,
+# mas este arquivo ajuda o sistema a identificar o projeto corretamente.
