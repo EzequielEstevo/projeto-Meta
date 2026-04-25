@@ -1,4 +1,4 @@
-# Sistema de Evolução Pessoal
+### Sistema de Evolução Pessoal
 
 Sistema de evolução pessoal gamificado construído com React, TypeScript, Tailwind CSS e Supabase.
 
