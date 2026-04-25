@@ -1,12 +1,13 @@
 import { useUpdateProfile, Profile } from "./useProfile";
 import { Mission } from "./useMissions";
 import { useToast } from "@/hooks/use-toast";
+import { type Rank } from "@/components/ui/RankBadge";
 
-const RANK_ORDER = ["E", "D", "C", "B", "A", "S", "SS", "SSR"];
-const RANK_THRESHOLDS: Record<string, number> = {
+const RANK_ORDER: Rank[] = ["E", "D", "C", "B", "A", "S", "SS", "SSR"];
+const RANK_THRESHOLDS: Record<Rank, number> = {
   E: 0, D: 5, C: 15, B: 30, A: 50, S: 80, SS: 120, SSR: 170,
 };
-const TITLES: Record<string, string> = {
+const TITLES: Record<Rank, string> = {
   E: "Novato",
   D: "Aprendiz",
   C: "Guerreiro",
@@ -40,16 +41,22 @@ export function useProgression() {
 
     const statUpdates: Partial<Profile> = {};
     const rewards = (mission.stat_rewards ?? []) as { stat: string; value: number }[];
+    
+    const statMap: Record<string, keyof Profile> = {
+      INT: "intelligence",
+      STR: "strength",
+      FCS: "focus",
+      KNW: "knowledge",
+      DSC: "discipline",
+      ENR: "energy",
+    };
+
     for (const r of rewards) {
-      const statKey = {
-        INT: "intelligence", STR: "strength", FCS: "focus",
-        KNW: "knowledge", DSC: "discipline", ENR: "energy",
-      }[r.stat] as keyof Profile | undefined;
-      if (statKey && statKey in profile) {
-        (statUpdates as any)[statKey] = Math.min(
-          (profile as any)[statKey] + r.value,
-          999
-        );
+      const statKey = statMap[r.stat];
+      if (statKey) {
+        const currentValue = profile[statKey] as number;
+        // @ts-expect-error - Dynamic key assignment
+        statUpdates[statKey] = Math.min(currentValue + r.value, 999);
       }
     }
 

@@ -31,11 +31,11 @@ function MissionList({ missions, onAccept, onComplete }: {
             <MissionCard
               title={mission.title}
               description={mission.description ?? ""}
-              rank={mission.rank as any}
+              rank={mission.rank}
               xpReward={mission.xp_reward}
               timeSlot={mission.time_slot ?? ""}
               duration={mission.duration ?? ""}
-              status={mission.status as any}
+              status={mission.status}
               statRewards={mission.stat_rewards}
               dueDate={mission.due_date}
               onAccept={() => onAccept(mission.id)}
@@ -137,13 +137,13 @@ export default function Dashboard() {
               <PlayerCard
                 name={profile.player_name}
                 level={profile.level}
-                rank={profile.rank as any}
+                rank={profile.rank}
                 title={profile.title}
                 currentXP={profile.current_xp}
                 requiredXP={profile.required_xp}
                 avatarUrl={profile.avatar_url}
                 tagline={profile.tagline}
-                onTaglineSave={(tagline) => updateProfile.mutate({ tagline } as any)}
+                onTaglineSave={(tagline) => updateProfile.mutate({ tagline })}
                 stats={{
                   intelligence: profile.intelligence,
                   strength: profile.strength,

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
+import { type Rank } from "@/components/ui/RankBadge";
 
 export interface Profile {
   id: string;
@@ -8,7 +9,7 @@ export interface Profile {
   level: number;
   current_xp: number;
   required_xp: number;
-  rank: string;
+  rank: Rank;
   title: string;
   intelligence: number;
   strength: number;

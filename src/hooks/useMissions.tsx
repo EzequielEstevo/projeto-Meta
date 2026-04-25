@@ -1,14 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
+import { type Rank } from "@/components/ui/RankBadge";
+
+export type MissionStatus = "available" | "in_progress" | "completed" | "failed";
 
 export interface Mission {
   id: string;
   user_id: string;
   title: string;
   description: string | null;
-  rank: string;
-  status: string;
+  rank: Rank;
+  status: MissionStatus;
   xp_reward: number;
   time_slot: string | null;
   duration: string | null;
@@ -47,7 +50,10 @@ export function useMissions(type?: string) {
 
       const { data, error } = await query;
       if (error) throw error;
-      return (data ?? []).map((d: any) => ({ ...d, stat_rewards: d.stat_rewards ?? [] })) as Mission[];
+      return (data ?? []).map((d) => ({
+        ...d,
+        stat_rewards: (d as unknown as Mission).stat_rewards ?? [],
+      })) as Mission[];
     },
     enabled: !!user,
   });

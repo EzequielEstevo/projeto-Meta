@@ -47,10 +47,10 @@ export function useAvatarUpload() {
         title: "Avatar atualizado!",
         description: "Sua foto de perfil foi alterada com sucesso.",
       });
-    } catch (error: any) {
+    } catch (error) {
       toast({
         title: "Erro ao enviar avatar",
-        description: error.message,
+        description: error instanceof Error ? error.message : "Ocorreu um erro desconhecido",
         variant: "destructive",
       });
     } finally {
